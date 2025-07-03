@@ -222,26 +222,24 @@ class ProxyServer:
             self.print("\u001b[2K" + stats, end="\r", flush=True)
 
     @staticmethod
+    def format_by_factor(value, factor, units):
+        i = 0
+        n = len(units) - 1
+        while value >= factor and i < n:
+            value /= factor
+            i += 1
+        return f"{value:.1f} {units[i]}"
+
+    @staticmethod
     def format_size(size):
         """
         Convert a size in bytes to a human-readable string with appropriate units.
         """
-        units = ["B", "KB", "MB", "GB"]
-        unit = 0
-        while size >= 1024 and unit < len(units) - 1:
-            size /= 1024
-            unit += 1
-        return f"{size:.1f} {units[unit]}"
+        return __class__.format_by_factor(size, 1024, ["B", "KB", "MB", "GB"])
 
     @staticmethod
     def format_speed(speed_bps):
-        units = ["bps", "Kbps", "Mbps", "Gbps"]
-        unit = 0
-        speed = speed_bps
-        while speed >= 1000 and unit < len(units) - 1:
-            speed /= 1000
-            unit += 1
-        return f"{speed:.1f} {units[unit]}"
+        return __class__.format_by_factor(speed, 1000, ["bps", "Kbps", "Mbps", "Gbps"])
 
     async def cleanup_tasks(self):
         while True:
