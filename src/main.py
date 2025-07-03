@@ -238,7 +238,7 @@ class ProxyServer:
         return __class__.format_by_factor(size, 1024, ["B", "KB", "MB", "GB"])
 
     @staticmethod
-    def format_speed(speed_bps):
+    def format_speed(speed):
         return __class__.format_by_factor(speed, 1000, ["bps", "Kbps", "Mbps", "Gbps"])
 
     async def cleanup_tasks(self):
