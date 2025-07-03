@@ -14,7 +14,8 @@ __version__ = "1.8.2"
 
 os.system("")
 
-if sys.platform == "win32":
+import importlib.util
+if sys.platform == "win32" and importlib.util.find_spec('winreg'):
     import winreg
 
 
@@ -503,6 +504,10 @@ class ProxyApplication:
         if sys.platform != "win32":
             print(
                 "\033[91m[ERROR]:\033[97m Autostart only available on Windows")
+            return
+
+        if not 'winreg' in globals():
+            print("\033[91m[ERROR]:\033[97m Unable to manage autostart (winreg required)")
             return
 
         app_name = "NoDPIProxy"
